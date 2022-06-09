@@ -4,3 +4,4 @@ pandas
 numpy
 pdfkit
 psycopg2
+windows-curses

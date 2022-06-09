@@ -23,7 +23,12 @@ async def create_purchase_request(db: sessionmaker, content: schemas.PurchaseReq
     db.commit()
     db.refresh(db_purchase)
     return db_purchase
-
+async def create_budget(db: sessionmaker, content: schemas.BudgetBase):
+    db_budget = models.Budgets(**content.dict())
+    db.add(db_budget)
+    db.commit()
+    db.refresh(db_budget)
+    return db_budget
 
 # ################################################################################
 # # READ

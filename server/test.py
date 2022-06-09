@@ -75,7 +75,36 @@ def test_create_accredited_person():
         )
     return response
 def test_create_budget():
-    pass
+    payload = {
+        "client_id": "06.330.557/0001-77",
+        "estimator": "Luiz",
+        "description": "Servico de construção civil",
+        "cetegory": "1",
+        "manpower": True,
+        "items": [
+            {
+            "description": "COMPRESSOR",
+            "quantity": 1,
+            "unity": "UN",
+            "unitary": 10,
+            "total": 10,
+            "_type": "material"
+            },
+            {
+            "description": "RODOL",
+            "quantity": 1,
+            "unity": "UN",
+            "unitary": 10,
+            "total": 10,
+            "_type": "material"
+            },
+        ],
+        "validity": "2022-06-09",
+        "payment_terms": "30 DDL",
+        "bdi": 0.30
+        }
+    response = requests.post(server+'/api/v1/budget/create', json=payload)
+    return response
 def test_purchase_request():
     payload = {
     "requester": "Thiago",
@@ -92,4 +121,4 @@ def test_purchase_request():
     ],
     "payment_terms": "30 DDL"
     }
-    requests.post(server+'', data={})
+    

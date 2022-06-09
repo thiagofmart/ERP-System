@@ -1,3 +1,4 @@
+from curses.ascii import HT
 from ._database import schemas, crud, utils
 from sqlalchemy.orm import sessionmaker
 from datetime import date
@@ -25,10 +26,15 @@ async def create_accredited_person(payload: schemas.AccreditedPerson, db: sessio
     db_accredited_person = await crud.create_accredited_person(db=db, content=payload)
     return db_accredited_person
 ##############################################################
-@app.post("/api/v1/budget/create")
-async def create_budget(paylaod: schemas.BudgetCreate):
-    
-    return {'none':'none'}
+@app.post("/api/v1/budget/create", response_model=schemas.Budget)
+async def create_budget(payload: schemas.BudgetBase, db: sessionmaker=Depends(utils.get_db_write)):
+    ### VALIDATION BLOCK ###
+    db_client = crud.get_accredited_person_by_id(db=db, id=payload.client_id)
+    if not db_client:
+        raise HTTPException(status_code=404, detail=f"Client with ID {payload.client_id} not found")
+    ### VALIDATION APPROVED ###
+    db_budget = await crud.create_budget(db=db, content=payload)
+    return db_budget
 @app.post("/api/v1/budget/send")
 async def send_budget(payload: schemas.Budget):
     return

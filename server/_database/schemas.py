@@ -57,33 +57,31 @@ class AccreditedPerson(BaseModel):
         orm_mode = True
 
 class Item(BaseModel):
-    descricao: str
-    qtd: float
-    unidade: str
-    unitario: float
+    description: str
+    quantity: float
+    unity: str
+    unitary: float
     total: float
 ### Budgets ####################################
 class ItemBudget(Item):
-    tipo: str
+    _type: str
 
 class BudgetBase(BaseModel):
     client_id: str
     estimator: str
-    description: str
     cetegory: str
+    description: str
     manpower: bool
     items: List[ItemBudget]
     validity: date
     payment_terms: str
-    
-class BudgetCreate(BudgetBase):
-    bdi: float
+    bdi: float    
     
 class Budget(BudgetBase):
     id: int
-    bdi: float
     created_at: date
-
+    class Config:
+        orm_mode = True
 
 ### Purchases #################################
 class PurchaseRequestBase(BaseModel):
